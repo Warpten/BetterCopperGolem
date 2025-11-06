@@ -18,6 +18,9 @@
 	"option.bettercoppergolem.allow_inserting_items_into_containers":"Класть предметы в контейнеры",
 	"option.bettercoppergolem.allow_inserting_items_into_containers.info":"Позволит добавлять предметы в инвентари шалкеровых ящиков и мешков внутри сундуков",
 	
+	"option.bettercoppergolem.match_oxidation_level":"Сверять уровень окисления сундуков и големов",
+	"option.bettercoppergolem.match_oxidation_level.info":"Разрешать големам проверять только сундуки с тем же уровнем окисления, что и голем",
+	
 	"option.bettercoppergolem.max_chest_check_count":"Макс. посещаемых сундуков",
 	"option.bettercoppergolem.max_chest_check_count.info":"Максимальное колличество сундуков, посищаемых големами перед перерывом",
 	

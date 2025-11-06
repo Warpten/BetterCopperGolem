@@ -15,6 +15,8 @@ public class Config
 
 	public boolean allowInsertingItemsIntoContainers = false;
 
+	public boolean matchOxidationLevel = false;
+
 	public int maxChestCheckCount = 10;
 
 	public int maxHeldItemStackSize = 16;

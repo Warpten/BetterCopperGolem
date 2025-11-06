@@ -10,7 +10,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.llamalad7.mixinextras.sugar.Local;
 
 import ma.shaur.bettercoppergolem.config.Config;
 import ma.shaur.bettercoppergolem.config.ConfigHandler;
@@ -19,6 +22,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
+import net.minecraft.block.CopperChestBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
@@ -26,7 +30,9 @@ import net.minecraft.component.type.BundleContentsComponent;
 import net.minecraft.component.type.ContainerComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.brain.task.MoveItemsTask;
+import net.minecraft.entity.ai.brain.task.MoveItemsTask.Storage;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.passive.CopperGolemEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BundleItem;
@@ -90,7 +96,13 @@ public abstract class MoveItemsTaskMixin
 	{
 		return this::betterTakeStack;
 	}
-
+	
+	@ModifyVariable(method = "getStorageFor", at = @At(value = "STORE"), ordinal = 1)
+	private boolean betterTestContainer(boolean valid, @Local() PathAwareEntity entity, @Local Storage storage)
+	{
+		return ConfigHandler.getConfig().matchOxidationLevel && entity instanceof CopperGolemEntity copperGolem ? storage.state().getBlock() instanceof CopperChestBlock chest && chest.getOxidationLevel() == copperGolem.getOxidationLevel() : valid;
+	}
+	
 	private void betterTakeStack(PathAwareEntity entity, Inventory inventory) 
 	{
 		ItemStack itemStack = betterExtractStack(entity, inventory);
@@ -146,7 +158,7 @@ public abstract class MoveItemsTaskMixin
 	{
 		int i = 0;
 		ItemStack hand = entity.getMainHandStack();
-		ItemStack handCopy = entity.getMainHandStack().copy();
+		ItemStack handCopy = hand.copy();
 
 		for(ItemStack itemStack : inventory)
 		{
@@ -216,7 +228,7 @@ public abstract class MoveItemsTaskMixin
 							}
 						}
 					}
-					if(j < 27) // I CAN NOT find max stack amount for container component
+					if(j < 27) // I CAN NOT find max slot amount for container component
 					{
 						DefaultedList<ItemStack> list = DefaultedList.ofSize(j + 2, ItemStack.EMPTY);
 						j = 0;
@@ -236,8 +248,8 @@ public abstract class MoveItemsTaskMixin
 		}
 		return hand;
 	}
-	
-	//Kinda silly, cab't think of a better way for now
+
+	//Kinda silly, can't think of a better way for now
 	@Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/brain/task/MoveItemsTask;markVisited(Lnet/minecraft/entity/mob/PathAwareEntity;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V"))
 	private void betterMarkVisited(MoveItemsTask moveItemsTask, PathAwareEntity entity, World world, BlockPos pos, ServerWorld paramWorld, PathAwareEntity paramEntity)
 	{

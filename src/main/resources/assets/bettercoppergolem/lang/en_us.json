@@ -18,6 +18,9 @@
 	"option.bettercoppergolem.allow_inserting_items_into_containers":"Place items into containers",
 	"option.bettercoppergolem.allow_inserting_items_into_containers.info":"Allow inserting items into containers within chests",
 	
+	"option.bettercoppergolem.match_oxidation_level":"Match copper chest and golem oxidation levels",
+	"option.bettercoppergolem.match_oxidation_level.info":"Will only allow golems to search chests of the same oxidation level",
+	
 	"option.bettercoppergolem.max_chest_check_count":"Max chests check",
 	"option.bettercoppergolem.max_chest_check_count.info":"Maximum ammount of copper golems will check before going idle",
 	
@@ -30,6 +33,6 @@
 	"option.bettercoppergolem.vertical_range":"Vertical range",
 	"option.bettercoppergolem.vertical_range.info":"How high can golems reach(pathfinding is a bit scuffed tho)",
 	
-	"option.bettercoppergolem.interaction_time":"Шnteraction time",
+	"option.bettercoppergolem.interaction_time":"Interaction time",
 	"option.bettercoppergolem.interaction_time.info":"Time in ticks(1/20th of a second) golems will spend looking through a single chest(breaks animations)"
 }

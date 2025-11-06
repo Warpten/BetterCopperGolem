@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import com.google.gson.JsonIOException;
-import com.llamalad7.mixinextras.injector.LateApplyingInjectorInfo;
 
 import ma.shaur.bettercoppergolem.BetterCopperGolemClient;
 import ma.shaur.bettercoppergolem.config.Config;
@@ -97,12 +96,13 @@ public class ConfigScreen extends GameOptionsScreen
 					SimpleOption.ofBoolean(translationKey("ignore_color"), tooltipFactory("ignore_color"), config.ignoreColor, b -> config.ignoreColor = b),
 					SimpleOption.ofBoolean(translationKey("allow_individual_items_match_container_contents"), tooltipFactory("allow_individual_items_match_container_contents"), config.allowIndividualItemsMatchContainerContents, b -> config.allowIndividualItemsMatchContainerContents = b),
 					SimpleOption.ofBoolean(translationKey("allow_inserting_items_into_containers"), tooltipFactory("allow_inserting_items_into_containers"), config.allowInsertingItemsIntoContainers, b -> config.allowInsertingItemsIntoContainers = b));
-
+		
 		body.addWidgetEntry(intContainer(Text.translatable(translationKey("max_chest_check_count")),Text.translatable(translationKey("max_chest_check_count.info")), config.maxChestCheckCount, i -> config.maxChestCheckCount = i),
 							intContainer(Text.translatable(translationKey("max_held_item_stack_size")), Text.translatable(translationKey("max_held_item_stack_size.info")), config.maxHeldItemStackSize, i -> config.maxHeldItemStackSize = i));
 		body.addWidgetEntry(intContainer(Text.translatable(translationKey("cooldown_time")),Text.translatable(translationKey("cooldown_time.info")), config.cooldownTime, i -> config.cooldownTime = i), 
 							intContainer(Text.translatable(translationKey("vertical_range")), Text.translatable(translationKey("vertical_range.info")), config.verticalRange, i -> config.verticalRange = i));
-		body.addWidgetEntry(intContainer(Text.translatable(translationKey("interaction_time")),Text.translatable(translationKey("interaction_time.info")), config.interactionTime, i -> config.interactionTime = i), null);
+		body.addWidgetEntry(intContainer(Text.translatable(translationKey("interaction_time")),Text.translatable(translationKey("interaction_time.info")), config.interactionTime, i -> config.interactionTime = i),
+							SimpleOption.ofBoolean(translationKey("match_oxidation_level"), tooltipFactory("match_oxidation_level"), config.matchOxidationLevel, b -> config.matchOxidationLevel = b).createWidget(gameOptions));
 	}
 	
 	private Container intContainer(Text text, Text tooltip, int value, ChangeListener listener)
